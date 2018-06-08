@@ -14,8 +14,8 @@ shell:
 	docker-compose exec squid sh
 
 testme:
-	env HTTP_PROXY=https://localhost:3129/  curl -X GET "http://httpbin.org/ip" -H "accept: application/json" --proxy-insecure
-	env HTTPS_PROXY=https://localhost:3129/  curl -X GET "https://httpbin.org/ip" -H "accept: application/json" --proxy-insecure
+	env http_proxy=https://localhost:3129/  curl -X GET "http://httpbin.org/ip" -H "accept: application/json" --proxy-insecure
+	env https_proxy=https://localhost:3129/  curl -X GET "https://httpbin.org/ip" -H "accept: application/json" --proxy-insecure
 
 
 certs:

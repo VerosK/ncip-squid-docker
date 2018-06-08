@@ -12,5 +12,5 @@
     make run
 
     # try to access httpbin through proxy
-    env HTTP_PROXY=https://localhost:3129/  curl -X GET "https://httpbin.org/ip" -H "accept: application/json" --proxy-insecure
+    env http_proxy=https://localhost:3129/  curl -X GET "https://httpbin.org/ip" -H "accept: application/json" --proxy-insecure
     
