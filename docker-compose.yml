@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+    squid:
+       image: 'moravianlibrary/cpk-ncip-proxy'
+       restart: unless-stopped
+       volumes:
+         - ./config/squid.conf:/etc/squid/squid.conf
+         - ./pki:/etc/pki
+       ports:
+         - 3128:3128
+         - 3129:3129
+

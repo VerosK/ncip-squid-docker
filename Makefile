@@ -1,19 +1,22 @@
 pwd := $(shell pwd)
 
 image:
-	docker build -t mzk/ncip-proxy .
+	docker build -t moravianlibrary/cpk-ncip-proxy .
 
+push: image
+	docker tag moravianlibrary/cpk-ncip-proxy moravianlibrary/cpk-ncip-proxy:devel
+	docker push moravianlibrary/cpk-ncip-proxy:devel
 
 run:
-	#docker-compose up
-	docker run -it --rm -p 3128:3128 -p 3129:3129 --volume $(pwd)/config/squid.conf:/etc/squid/squid.conf -v $(pwd)/pki/:/etc/pki  mzk/ncip-proxy
+	docker-compose up
 
-run-sh:
-	#docker-compose up
-	docker run -it --rm --entrypoint sh --publish 3128 mzk/ncip-proxy
+shell:
+	docker-compose exec squid sh
 
 testme:
-	ienv http_proxy=https://localhost:3129/  curl -X GET "https://httpbin.org/ip" -H "accept: application/json" --proxy-insecure
+	env HTTP_PROXY=https://localhost:3129/  curl -X GET "http://httpbin.org/ip" -H "accept: application/json" --proxy-insecure
+	env HTTPS_PROXY=https://localhost:3129/  curl -X GET "https://httpbin.org/ip" -H "accept: application/json" --proxy-insecure
+
 
 certs:
-	openssl req -x509 -newkey rsa:4096 -keyout pki/squid.key -out pki/squid.pem -days 3650 -nodes -subj '/C=XX/O=Dummy Certificate/CN=dummy'
+	openssl req -x509 -newkey rsa:4096 -keyout pki/squid.key -out pki/squid.pem -days 3650 -nodes -subj '/C=XX/O=Dummy Certificate/CN=localhost/'
